@@ -8,11 +8,13 @@ public interface CourseService {
 
     int registerCourse(Course course);
 
+    int courseCount();
+
     int updateCourse(Course course);
 
     int deleteCourse(String courseId);
 
     Course getOneCourse(String courseId);
 
-    List<Course> getAllCourse();
+    List<Course> getAllCourses();
 }

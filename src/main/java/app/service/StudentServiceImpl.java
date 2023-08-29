@@ -5,10 +5,14 @@ import app.model.User;
 import app.util.JPAUtil;
 import app.util.PasswordHelper;
 import jakarta.persistence.EntityManager;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service("studentService")
+@Component
 public class StudentServiceImpl implements StudentService{
     @Override
     public int registerStudent(Student student) {

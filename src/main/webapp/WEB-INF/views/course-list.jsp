@@ -36,7 +36,7 @@
     </style>
 </head>
 <body class="m-0 border-0 bd-example m-0 border-0" style="padding-top: 100px;">
-<jsp:include page="nav-bar.jsp"/>
+<jsp:include page="navbar.jsp"/>
 <div class="container mt-4">
     <h2>Courses</h2>
     <div class="mb-3">
@@ -75,7 +75,7 @@
             <tr>
                 <td>${i.index+1}</td>
                 <td>${course.courseName}</td>
-                <td>${course.addedBy}</td>
+                <td>${course.addedBy.userName}</td>
                 <td>${course.addedAt}</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/course/edit?courseId=${course.courseId}" style="text-decoration: none">

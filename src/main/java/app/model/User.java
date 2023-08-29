@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "user")
@@ -15,9 +17,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USERID")
     private int userId;
-
-    @Column(name = "DISPLAYUSERID")
-    private String displayUserId;
 
     @Column(name = "USERNAME")
     private String userName;
@@ -39,5 +38,8 @@ public class User {
 
     @Column(name = "USERROLE")
     private String userRole;
+
+    @OneToMany(mappedBy = "addedBy")
+    private List<Course> addedCourses;
 
 }

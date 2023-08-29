@@ -82,9 +82,9 @@ public class UserServiceImpl implements UserService{
         List<User> userList = new ArrayList<>();
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            userList = em.createQuery("SELECT u FROM User u where u.userRole = :userRole and u.status=:userStatus", User.class)
+            userList = em.createQuery("SELECT u FROM User u where u.userRole = :userRole and u.status=:status", User.class)
                     .setParameter("userRole", "user")
-                    .setParameter("userStatus","active")
+                    .setParameter("status","active")
                     .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {

@@ -41,15 +41,15 @@
     </style>
 </head>
 <body class="m-0 border-0 bd-example m-0 border-0" style="padding-top: 100px;">
-<jsp:include page="nav-bar.jsp"/>
+<jsp:include page="navbar.jsp"/>
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h2 class="display-4">Course Registration</h2>
-            <form:form class="row g-3 mt-4" action="${pageContext.request.contextPath}/course/add" method="post" modelAttribute="courseBean">
+            <form:form class="row g-3 mt-4" action="${pageContext.request.contextPath}/course/register" method="post" modelAttribute="course">
                 <div class="col-md-10">
                     <div class="form-floating">
-                        <form:input type="text" class="form-control" id="courseId" name="courseId"  path="courseId" readonly="true" value="COURSE_${courseCount}"/>
+                        <form:input type="text" class="form-control" id="courseId" name="courseId"  path="displayCourseId" readonly="true" value="COURSE_${courseCount}"/>
                     </div>
                 </div>
                 <div class="col-md-10">
@@ -72,7 +72,7 @@
 <c:choose>
     <c:when test="${message eq 'courseDupe'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
+        <div class="position-fixed top-100 end-0 p-3">
             <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
@@ -87,7 +87,7 @@
     </c:when>
     <c:when test="${message eq 'emptyError'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
+        <div class="position-fixed top-100 end-0 p-3">
             <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
@@ -102,7 +102,7 @@
     </c:when>
     <c:when test="${message eq 'courseAddError'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
+        <div class="position-fixed top-0 end-100 p-3">
             <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>

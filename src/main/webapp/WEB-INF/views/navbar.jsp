@@ -58,7 +58,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/course/list">View Courses</a></li>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/course/add">Add Course</a></li>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/course/register">Add Course</a></li>
                     </ul>
                 </li>
             </ul>

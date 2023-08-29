@@ -61,11 +61,16 @@ public class UserController {
                         session.setAttribute("currentUser", u);
                         redirectAttributes.addFlashAttribute("message", "loginSuccess");
                         return "redirect:/";
+                    }else {
+                        modelMap.addAttribute("message", "loginError");
+                        return "user-login";
                     }
                 }
             } else {
                 if (u.getUserName().equals(user.getUserIdentifier())) {
-                    if (PasswordHelper.checkPassword(user.getUserPassword(), user.getUserPassword())) {
+                    System.out.println("Same username");
+                    if (PasswordHelper.checkPassword(user.getUserPassword(), u.getUserPassword())) {
+                        System.out.println("Same password");
                         session.setAttribute("currentUser", u);
                         redirectAttributes.addFlashAttribute("message", "loginSuccess");
                         return "redirect:/";
@@ -123,7 +128,7 @@ public class UserController {
         }
 
         modelMap.addAttribute("message","registerSuccess");
-        return "user-login";
+        return "redirect:/user/login";
     }
 
     @GetMapping("/list")
@@ -132,5 +137,11 @@ public class UserController {
         modelMap.addAttribute("users",users);
 
         return "user-list";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
     }
 }
