@@ -82,8 +82,9 @@ public class UserServiceImpl implements UserService{
         List<User> userList = new ArrayList<>();
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            userList = em.createQuery("SELECT u FROM User u where u.userRole = :userRole", User.class)
+            userList = em.createQuery("SELECT u FROM User u where u.userRole = :userRole and u.status=:userStatus", User.class)
                     .setParameter("userRole", "user")
+                    .setParameter("userStatus","active")
                     .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -97,7 +98,9 @@ public class UserServiceImpl implements UserService{
         List<User> userList = new ArrayList<>();
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            userList = em.createQuery("SELECT u FROM User u", User.class).getResultList();
+            userList = em.createQuery("SELECT u FROM User u where u.status=:userStatus", User.class)
+                    .setParameter("userStatus","active")
+                    .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());

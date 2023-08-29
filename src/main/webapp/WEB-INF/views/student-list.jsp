@@ -20,7 +20,7 @@
     </style>
 </head>
 <body class="m-0 border-0 bd-example m-0 border-0" style="padding-top: 100px;">
-<jsp:include page="nav-bar.jsp"/>
+<jsp:include page="navbar.jsp"/>
 <div class="container mt-4">
     <h2>Students</h2>
     <div class="mb-3">

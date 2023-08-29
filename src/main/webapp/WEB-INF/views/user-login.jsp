@@ -113,7 +113,7 @@
 <c:choose>
     <c:when test="${message eq 'registerSuccess'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
+        <div class="position-fixed top-100 end-0 p-3">
             <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>

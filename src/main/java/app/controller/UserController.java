@@ -122,8 +122,7 @@ public class UserController {
             return "user-register";
         }
 
-        redirectAttributes.addFlashAttribute("message","registerSuccess");
-
+        modelMap.addAttribute("message","registerSuccess");
         return "user-login";
     }
 
@@ -134,6 +133,4 @@ public class UserController {
 
         return "user-list";
     }
-
-
 }

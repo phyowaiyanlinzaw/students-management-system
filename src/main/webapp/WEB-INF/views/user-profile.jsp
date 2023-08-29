@@ -55,7 +55,7 @@
     </style>
 </head>
 <body class="m-0 border-0 bd-example m-0 border-0" style="padding-top: 100px;">
-<jsp:include page="nav-bar.jsp"/>
+<jsp:include page="navbar.jsp"/>
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4">

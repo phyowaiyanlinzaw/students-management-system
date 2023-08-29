@@ -25,6 +25,8 @@ public class Student {
 
     private String studentPhone;
 
+    private String status;
+
     @ManyToMany
     @JoinTable(
             name = "student_course",

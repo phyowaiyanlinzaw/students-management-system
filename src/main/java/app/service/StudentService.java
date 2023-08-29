@@ -3,6 +3,7 @@ package app.service;
 import app.model.Student;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface StudentService {
 
@@ -14,5 +15,5 @@ public interface StudentService {
 
     Student getOneStudent(String studentId);
 
-    ArrayList<Student> getAllStudents();
+    List<Student> getAllStudents();
 }
