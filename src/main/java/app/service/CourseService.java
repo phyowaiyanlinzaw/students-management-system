@@ -17,4 +17,6 @@ public interface CourseService {
     Course getOneCourse(String courseId);
 
     List<Course> getAllCourses();
+
+    Course getCourseByName(String courseName);
 }

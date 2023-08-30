@@ -17,7 +17,6 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
                       value="rootroot" />
             <property name="jakarta.persistence.jdbc.driver"
                       value="com.mysql.jdbc.Driver" />
-            <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
             <property name="eclipselink.ddl-generation"
                       value="create-tables" />
             <property name="eclipselink.logging.level" value="FINE"/>

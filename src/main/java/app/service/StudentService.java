@@ -1,13 +1,15 @@
 package app.service;
 
+import app.model.Course;
 import app.model.Student;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface StudentService {
 
     int registerStudent(Student student);
+
+    int getStudentCount();
 
     int updateStudent(Student student);
 
@@ -16,4 +18,5 @@ public interface StudentService {
     Student getOneStudent(String studentId);
 
     List<Student> getAllStudents();
+
 }

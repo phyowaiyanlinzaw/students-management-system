@@ -22,10 +22,10 @@
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <h2 class="display-4">Course Edit</h2>
-      <form:form class="row g-3 mt-4" action="${pageContext.request.contextPath}/course/edit" method="post" modelAttribute="courseBean">
+      <form:form class="row g-3 mt-4" action="${pageContext.request.contextPath}/course/edit" method="post" modelAttribute="course">
         <div class="col-md-10">
           <div class="form-floating">
-            <form:input type="text" class="form-control" id="courseId" name="courseId"  path="courseId" readonly="true" value="${course.courseId}"/>
+            <form:input type="text" class="form-control" id="courseId" name="courseId"  path="displayCourseId" readonly="true"/>
           </div>
         </div>
         <div class="col-md-10">

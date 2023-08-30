@@ -65,7 +65,7 @@
         <tr>
             <th>#</th>
             <th>Course Name</th>
-            <th>Added By</th>
+<%--            <th>Added By</th>--%>
             <th>Added At</th>
             <th>Action</th>
         </tr>
@@ -75,10 +75,10 @@
             <tr>
                 <td>${i.index+1}</td>
                 <td>${course.courseName}</td>
-                <td>${course.addedBy.userName}</td>
+<%--                <td>${course.addedBy}</td>--%>
                 <td>${course.addedAt}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/course/edit?courseId=${course.courseId}" style="text-decoration: none">
+                    <a href="${pageContext.request.contextPath}/course/edit?courseName=${course.courseName}" style="text-decoration: none">
                         <button class="btn btn-sm btn-success">Update</button>
                     </a>
 

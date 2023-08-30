@@ -39,7 +39,4 @@ public class User {
     @Column(name = "USERROLE")
     private String userRole;
 
-    @OneToMany(mappedBy = "addedBy")
-    private List<Course> addedCourses;
-
 }

@@ -40,7 +40,7 @@
     </style>
 </head>
 <body class="m-0 border-0 bd-example m-0 border-0" style="padding-top: 100px;">
-<jsp:include page="nav-bar.jsp"/>
+<jsp:include page="navbar.jsp"/>
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <div class="col-8">
@@ -49,7 +49,7 @@
                 <div class="row mb-4 mt-5">
                     <label for="student-id" class="col-md-3 col-form-label">Student ID</label>
                     <div class="col-md-8">
-                        <form:input type="text" class="form-control ms-2" id="student-id" path="studentId" readonly="true" value="STUDENT_${count}"/>
+                        <form:input type="text" class="form-control ms-2" id="student-id" path="displayStudentId" readonly="true" value="STUDENT_${studentCount}"/>
                     </div>
                 </div>
                 <div class="row mb-4">
@@ -115,7 +115,7 @@
                         <div class="form-check d-flex flex-wrap" >
                             <c:forEach items="${courses}" var="course">
                                 <div class="form-check form-check-inline mb-2">
-                                    <form:checkbox class="form-check-input" name="studentCourse" id="${course.courseName}" value="${course.courseName}" path="studentCourse"/>
+                                    <form:checkbox path="studentCourse" class="form-check-input" name="studentCourses" id="${course.courseName}" value="${course.courseName}"/>
                                     <label class="form-check-label" for="${course.courseName}">${course.courseName}</label>
                                 </div>
                             </c:forEach>
@@ -157,7 +157,7 @@ ${message}
             </div>
         </div>
     </c:when>
-    <c:when test="${message eq 'stuRegisterError'}">
+    <c:when test="${message eq 'studentAddError'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
         <div class="position-fixed top-0 end-0 p-3">
             <div class="toast text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">

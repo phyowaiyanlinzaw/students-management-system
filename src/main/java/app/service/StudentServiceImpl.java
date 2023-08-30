@@ -67,4 +67,20 @@ public class StudentServiceImpl implements StudentService{
         }
         return students;
     }
+
+    @Override
+    public int getStudentCount(){
+        int count = 0;
+        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+            em.getTransaction().begin();
+            count = em.createQuery("select count (s) from Student s",Long.class)
+                    .getSingleResult()
+                    .intValue();
+            em.getTransaction().commit();
+        }   catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return count;
+    }
 }

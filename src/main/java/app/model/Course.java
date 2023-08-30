@@ -7,6 +7,7 @@ import org.eclipse.persistence.internal.platform.database.oracle.TIMESTAMPHelper
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,13 +25,11 @@ public class Course {
 
     private String status;
 
-    @ManyToMany(mappedBy = "courses")
-    private List<Student> students;
-
-    @ManyToOne
-    @JoinColumn(name = "USERID")  // This should match the actual column name in your table
-    private User addedBy;
+    private int addedBy;
 
     private Timestamp addedAt;
+
+    @ManyToMany(mappedBy = "studentCourses")
+    private List<Student> students;
 
 }

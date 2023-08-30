@@ -66,7 +66,13 @@
                 <td>${i.index+1}</td>
                 <td>${student.studentName}</td>
                 <td>${student.studentEducation}</td>
-                <td>${student.studentCourse}</td>
+
+                <td>
+                    <c:forEach items="${student.studentCourses}" var="course" varStatus="status">
+                        ${course.courseName}
+                        <c:if test="${!status.last}">,</c:if>
+                    </c:forEach>
+                </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/student/edit?studentId=${student.studentId}" style="text-decoration: none">
                         <button class="btn btn-sm btn-success">Update</button>

@@ -1,8 +1,10 @@
 package app.service;
 
 import app.model.Course;
+import app.model.User;
 import app.util.JPAUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +57,17 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public int updateCourse(Course course) {
-        return 0;
+        int result = 0;
+        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+            em.getTransaction().begin();
+            Query query = em.createQuery("update Course c set c.courseDescription=:courseDescription,c.courseName=:courseName,c.addedAt=:addedAt,c.addedBy=:addedBy");
+            query.setParameter("courseDescription",course.getCourseDescription());
+            query.setParameter("courseName",course.getCourseName());
+            query.setParameter("addedAt",new Timestamp(System.currentTimeMillis()));
+            query.setParameter("addedBy",course.getAddedBy());
+            result = query.executeUpdate();
+        }
+        return result;
     }
 
     @Override
@@ -65,7 +77,15 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public Course getOneCourse(String courseId) {
-        return null;
+        Course course = null;
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
+            em.getTransaction().begin();
+            course = em.find(Course.class, courseId);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return course;
     }
 
     @Override
@@ -80,5 +100,22 @@ public class CourseServiceImpl implements CourseService{
         }
 
         return courses;
+    }
+
+    @Override
+    public Course getCourseByName(String courseName) {
+        Course course = new Course();
+        System.out.println(courseName);
+        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
+            em.getTransaction().begin();
+            course = em.createQuery("select c from Course c where c.courseName=:courseName",Course.class)
+                            .setParameter("courseName",courseName)
+                                    .getSingleResult();
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return course;
     }
 }

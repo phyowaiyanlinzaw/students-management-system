@@ -8,10 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -71,7 +68,7 @@ public class CourseController {
         }
 
         User currentUser = (User) session.getAttribute("currentUser");
-        course.setAddedBy(currentUser);
+        course.setAddedBy(currentUser.getUserId());
 
         int result = courseService.registerCourse(course);
 
@@ -89,5 +86,37 @@ public class CourseController {
         List<Course> courses = courseService.getAllCourses();
         modelMap.addAttribute("courses",courses);
         return "course-list";
+    }
+
+    @GetMapping("/edit")
+    public ModelAndView courseEdit(@RequestParam("courseName") String courseName){
+        System.out.println(courseService.getCourseByName(courseName).getCourseName());
+        return new ModelAndView("course-edit","course",courseService.getCourseByName(courseName));
+    }
+
+    @PostMapping("/edit")
+    public String courseEdit(
+            @ModelAttribute("course") Course course,
+            ModelMap modelMap,
+            RedirectAttributes redirectAttributes
+    ){
+
+        try{
+            if(course.getCourseName().isEmpty()||course.getCourseDescription().isEmpty()){
+                modelMap.addAttribute("message","emptyError");
+                return "course-edit";
+            }
+        }catch (NullPointerException e){
+            modelMap.addAttribute("message","emptyError");
+            return "course-edit";
+        }
+
+        int result = courseService.updateCourse(course);
+        if(result<1){
+            modelMap.addAttribute("message","courseEditError");
+            return "course-edit";
+        }
+        modelMap.addAttribute("message","courseEditSuccess");
+        return "redirect:/course/list";
     }
 }
