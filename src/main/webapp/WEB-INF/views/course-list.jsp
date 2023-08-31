@@ -82,7 +82,7 @@
                         <button class="btn btn-sm btn-success">Update</button>
                     </a>
 
-                    <button class="btn btn-sm btn-danger delete-btn" data-course-id="${course.courseId}" >Delete</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-course-id="${course.displayCourseId}" >Delete</button>
                 </td>
             </tr>
         </c:forEach>

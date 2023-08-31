@@ -127,4 +127,20 @@ public class CourseController {
         }
 
     }
+
+    @GetMapping("/delete")
+    public String courseDelete(
+            @RequestParam("courseId") String courseId,
+ModelMap modelMap,
+            RedirectAttributes redirectAttributes
+    ){
+        int result = courseService.deleteCourse(courseId);
+        if(result<1){
+            redirectAttributes.addFlashAttribute("message","courseDeleteError");
+            return "redirect:/course/list";
+        }
+        redirectAttributes.addFlashAttribute("message","courseDeleteSuccess");
+
+        return "redirect:/course/list";
+    }
 }

@@ -76,7 +76,16 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public int deleteCourse(String courseId) {
-        return 0;
+        int result = 0;
+        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+            em.getTransaction().begin();
+            Query query = em.createQuery("update Course c set c.status=:status where c.displayCourseId=:courseId");
+            query.setParameter("status","deleted");
+            query.setParameter("courseId",courseId);
+            result = query.executeUpdate();
+            em.getTransaction().commit();
+        }
+        return result;
     }
 
     @Override
