@@ -17,7 +17,7 @@
 <body class="m-0 border-0 bd-example m-0 border-0" style="padding-top: 100px;">
 <jsp:include page="navbar.jsp"/>
 <div class=" text-center" style="color: #1e1b4b">
-    <h1 class="mb-0 display-2">Welcome ❝ <a>${currentUser.userName}</a> ❞ , to the Student Management System</h1>
+    <h1 class="mb-0 display-2">Welcome ❝ <a>${currentUser.userRole}</a> ❞ , to the Student Management System</h1>
 </div>
 </body>
 <c:choose>

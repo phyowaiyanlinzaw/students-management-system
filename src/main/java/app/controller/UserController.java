@@ -148,6 +148,14 @@ public class UserController {
         return new ModelAndView("user-profile","user",currentUser);
     }
 
+    @GetMapping("/edit")
+    public ModelAndView editProfile(
+            @RequestParam("userId") int userId
+    ){
+        User user = userService.getOneUser(userId);
+        return new ModelAndView("user-profile","user",user);
+    }
+
     @PostMapping("/edit")
     public String editProfile(
             @ModelAttribute("user") User user,
