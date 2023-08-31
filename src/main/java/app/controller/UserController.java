@@ -132,7 +132,6 @@ public class UserController {
     public String userList(ModelMap modelMap){
         List<User> users = userService.getAllUsers();
         modelMap.addAttribute("users",users);
-
         return "user-list";
     }
 
