@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService{
         int result = 0;
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
+            user.setStatus("active");
+            user.setUserRole("user");
             em.merge(user);
             em.getTransaction().commit();
             result = 1;

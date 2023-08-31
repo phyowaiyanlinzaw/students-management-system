@@ -68,7 +68,7 @@
                 <h3 class="me-2">User Profile</h3>
                 <i class="fas fa-edit ms-2" id="editIcon" style="color: #1e1b4b"></i>
             </div>
-            <form:form modelAttribute="userBean" enctype="multipart/form-data" method="post" action="${pageContext.request.contextPath}/user/edit?userId=${user.userId}">
+            <form:form modelAttribute="user" enctype="multipart/form-data" method="post" action="${pageContext.request.contextPath}/user/edit?userId=${user.userId}">
                 <div class="form-group mb-3">
                     <label for="name">Name</label>
                     <form:input type="text" class="form-control" id="name" readonly="true" path="userName"/>

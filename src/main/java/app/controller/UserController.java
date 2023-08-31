@@ -8,10 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -145,8 +142,50 @@ public class UserController {
         return "redirect:/";
     }
 
-//    @GetMapping("/profile")
-//    public ModelAndView userProfile(){
-//
-//    }
+    @GetMapping("/profile")
+    public ModelAndView userProfile(HttpSession session){
+        User currentUser = (User) session.getAttribute("currentUser");
+        return new ModelAndView("user-profile","user",currentUser);
+    }
+
+    @PostMapping("/edit")
+    public String editProfile(
+            @ModelAttribute("user") User user,
+            ModelMap modelMap,
+            @RequestParam("cPassword") String cPassword,
+            @RequestParam("password") String password,
+            @RequestParam("userId") int userId,
+            HttpSession session
+
+    ){
+
+        try{
+            if(user.getUserName().trim().isEmpty() || user.getUserEmail().trim().isEmpty() || password.trim().isEmpty()){
+                modelMap.addAttribute("message","emptyError");
+                return "user-register";
+            }
+        }catch (NullPointerException e){
+            modelMap.addAttribute("message","emptyError");
+            return "user-register";
+        }
+
+        if (!cPassword.equals(password)){
+            modelMap.addAttribute("message","passwordNotMatch");
+            return "user-profile";
+        }
+
+
+        user.setUserId(userId);
+        user.setUserPassword(PasswordHelper.hashPassword(password));
+
+        int editUserResult = userService.updateUser(user);
+
+        if(editUserResult==0){
+            modelMap.addAttribute("message","editError");
+            return "user-profile";
+        }
+
+        session.setAttribute("currentUser",user);
+        return "redirect:/user/profile";
+    }
 }
