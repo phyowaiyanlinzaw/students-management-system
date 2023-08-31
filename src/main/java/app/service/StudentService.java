@@ -13,7 +13,7 @@ public interface StudentService {
 
     int updateStudent(Student student);
 
-    int deleteStudent(String studentId);
+    int deleteStudent(int studentId);
 
     Student getOneStudent(int studentId);
 

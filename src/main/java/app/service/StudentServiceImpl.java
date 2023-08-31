@@ -55,9 +55,16 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public int deleteStudent(String studentId) {
+    public int deleteStudent(int studentId) {
         int result = 0;
-
+        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+            em.getTransaction().begin();
+            Query query = em.createQuery("update Student s set s.status=:status where s.studentId=:studentId");
+            query.setParameter("status","inactive");
+            query.setParameter("studentId",studentId);
+            result = query.executeUpdate();
+            em.getTransaction().commit();
+        }
         return result;
     }
 

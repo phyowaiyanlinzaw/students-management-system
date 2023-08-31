@@ -196,4 +196,18 @@ public class StudentController {
         return "redirect:/student/list";
     }
 
+    @GetMapping("/delete")
+    public String deleteStudent(
+            @RequestParam("studentId") int studentId,
+            RedirectAttributes redirectAttributes
+    ){
+        int result = studentService.deleteStudent(studentId);
+        if (result<1){
+            redirectAttributes.addFlashAttribute("message","stuDeleteError");
+            return "redirect:/student/list";
+        }
+        redirectAttributes.addFlashAttribute("message","stuDeleteSuccess");
+        return "redirect:/student/list";
+    }
+
 }
