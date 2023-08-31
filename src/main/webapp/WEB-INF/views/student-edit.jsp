@@ -38,18 +38,19 @@
   </style>
 </head>
 <body class="m-0 border-0 bd-example m-0 border-0" style="padding-top: 100px;">
-<jsp:include page="nav-bar.jsp"/>
+<jsp:include page="navbar.jsp"/>
 <div class="container mt-4">
   <div class="row">
     <div class="col-4 d-flex flex-column align-items-center">
       <img src="${pageContext.request.contextPath}/student/photo?studentId=${studentId}" class="img-fluid" alt="Student Photo" width="300" height="300">
     </div>
     <div class="col-8">
-      <form:form action="${pageContext.request.contextPath}/student/edit" method="post" enctype="multipart/form-data" modelAttribute="studentBean">
+      <form:form action="${pageContext.request.contextPath}/student/edit" method="post" enctype="multipart/form-data" modelAttribute="student">
+            <form:input type="text" class="form-control" id="student-id" path="studentId" readonly="true" hidden="true"/>
         <div class="row mb-4 mt-5">
           <label for="student-id" class="col-md-3 col-form-label">Student ID</label>
           <div class="col-md-8">
-            <form:input type="text" class="form-control" id="student-id" path="studentId" readonly="true"/>
+            <form:input type="text" class="form-control" id="student-id" path="displayStudentId" readonly="true"/>
           </div>
         </div>
         <div class="row mb-4">
@@ -112,22 +113,22 @@
           <label class="col-md-3 col-form-label">Attend</label>
           <div class="col-md-8">
             <div class="form-check d-flex flex-wrap" >
-              <c:forEach items="${courses}" var="course">
-                <div class="form-check form-check-inline mb-2">
-                  <c:set var="isSelected" value="false" />
-                  <c:forEach items="${studentCourses}" var="selectedCourse">
-                    <c:if test="${course.courseName eq selectedCourse}">
-                      <c:set var="isSelected" value="true" />
-                    </c:if>
-                  </c:forEach>
-                  <input class="form-check-input" type="checkbox" name="studentCourse" id="${course.courseName}" value="${course.courseName}"
-                  <c:if test="${isSelected}">
-                         checked
-                  </c:if>
-                  >
-                  <label class="form-check-label" for="${course.courseName}">${course.courseName}</label>
-                </div>
-              </c:forEach>
+  <c:forEach items="${courses}" var="course">
+    <div class="form-check form-check-inline mb-2">
+      <c:set var="isSelected" value="false" />
+      <c:forEach items="${student.studentCourses}" var="selectedCourse">
+        <c:if test="${course.courseName eq selectedCourse.courseName}">
+          <c:set var="isSelected" value="true" />
+        </c:if>
+      </c:forEach>
+      <input class="form-check-input" type="checkbox" name="studentCourse"
+             id="${course.courseName}" value="${course.courseName}"
+             <c:if test="${isSelected}">checked</c:if>
+      >
+      <label class="form-check-label" for="${course.courseName}">${course.courseName}</label>
+    </div>
+  </c:forEach>
+
 
             </div>
           </div>

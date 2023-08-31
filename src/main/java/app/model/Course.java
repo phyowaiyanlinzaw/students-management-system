@@ -7,6 +7,7 @@ import org.eclipse.persistence.internal.platform.database.oracle.TIMESTAMPHelper
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -31,5 +32,19 @@ public class Course {
 
     @ManyToMany(mappedBy = "studentCourses")
     private List<Student> students;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Course) {
+            Course course = (Course) obj;
+            return course.getCourseId() == this.getCourseId();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseId);
+    }
 
 }

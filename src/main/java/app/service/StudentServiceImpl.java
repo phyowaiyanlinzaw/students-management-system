@@ -5,6 +5,7 @@ import app.model.User;
 import app.util.JPAUtil;
 import app.util.PasswordHelper;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,20 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public int updateStudent(Student student) {
         int result = 0;
+        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+            em.getTransaction().begin();
+//            Query query = em.createQuery("update Student s set s.studentName=:studentName,s.studentDob=:studentDob,s.studentGender=:studentGender,s.studentPhone=:studentPhone,s.studentEducation=:studentEducation where s.displayStudentId=:studentId");
+//            query.setParameter("studentName",student.getStudentName());
+//            query.setParameter("studentDob",student.getStudentDob());
+//            query.setParameter("studentGender",student.getStudentGender());
+//            query.setParameter("studentPhone",student.getStudentPhone());
+//            query.setParameter("studentEducation",student.getStudentEducation());
+//            query.setParameter("studentId",student.getDisplayStudentId());
+//            result = query.executeUpdate();
+            Student s = em.merge(student);
+            em.getTransaction().commit();
+            result = 1;
+        }
 
         return result;
     }
@@ -47,8 +62,17 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Student getOneStudent(String studentId) {
+    public Student getOneStudent(int studentId) {
         Student student = new Student();
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
+            em.getTransaction().begin();
+            student = em.createQuery("SELECT s FROM Student s where s.studentId=:studentId", Student.class)
+                    .setParameter("studentId",studentId)
+                    .getSingleResult();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         return student;
     }

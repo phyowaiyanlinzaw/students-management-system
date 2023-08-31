@@ -133,4 +133,20 @@ public class CourseServiceImpl implements CourseService{
 
         return course;
     }
+
+    @Override
+    public List<Course> getCoursesOfStudent(int studentId){
+        List<Course> courses = new ArrayList<>();
+        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+            em.getTransaction().begin();
+            courses = em.createQuery("select c from Course c join c.students s where s.studentId=:studentId and c.status=:status",Course.class)
+                    .setParameter("studentId",studentId)
+                    .setParameter("status","active")
+                    .getResultList();
+            em.getTransaction().commit();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return courses;
+    }
 }

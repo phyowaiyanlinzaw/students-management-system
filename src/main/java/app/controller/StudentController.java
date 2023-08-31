@@ -14,7 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +38,11 @@ public class StudentController {
     @RequestMapping("/list")
     public ModelAndView studentsList(ModelMap modelMap){
         List<Student> students = studentService.getAllStudents();
+
+        for (Student student:students){
+            List<Course> courses = courseService.getCoursesOfStudent(student.getStudentId());
+            student.setStudentCourses(courses);
+        }
         ModelAndView modelAndView = new ModelAndView("student-list");
         modelAndView.addObject("students", students);
         return modelAndView;
@@ -50,8 +58,6 @@ public class StudentController {
         }
         List<Course> courses = courseService.getAllCourses();
         modelMap.addAttribute("courses",courses);
-        Course coursecourse = courseService.getCourseByName("java");
-        System.out.println("course = " + coursecourse);
         return new ModelAndView("student-register","student",new Student());
     }
 
@@ -65,9 +71,6 @@ public class StudentController {
 
         System.out.println(student.getStudentName());
         String[] coursesNames = student.getStudentCourse().split(",");
-        for (String c : coursesNames){
-            System.out.println(c);
-        }
 
 
         try{
@@ -91,13 +94,10 @@ public class StudentController {
         student.setStudentPhoto(studentPhoto);
 
         List<Course> studentCourses = new ArrayList<>();
-        System.out.println(coursesNames.length);
 
 
         for (String coursesName : coursesNames) {
-            System.out.println(coursesName);
             Course course = courseService.getCourseByName(coursesName);
-            System.out.println(course);
             studentCourses.add(course);
         }
 
@@ -113,4 +113,87 @@ public class StudentController {
 
         return "redirect:/student/list";
     }
+
+    @GetMapping("/photo")
+    public void displayPhoto(@RequestParam("studentId") int studentId, HttpServletResponse response){
+        Student student = studentService.getOneStudent(studentId);
+        if (student != null && student.getStudentPhoto() != null) {
+            response.setContentType("image/jpeg");
+            try (OutputStream outputStream = response.getOutputStream()) {
+                byte[] photoData = student.getStudentPhoto(); // Assuming getStudentPhoto() returns byte[]
+                outputStream.write(photoData);
+            } catch (IOException e) {
+                System.out.println(e.getMessage()); // Log the exception
+            }
+        }
+    }
+
+    @GetMapping("/edit")
+    public ModelAndView editStudent(
+            @RequestParam("studentId") int studentId,
+            ModelMap modelMap
+    ){
+        List<Course> courses = courseService.getAllCourses();
+        modelMap.addAttribute("courses",courses);
+        Student student = studentService.getOneStudent(studentId);
+        modelMap.addAttribute("studentId",studentId);
+        return new ModelAndView("student-edit","student",student);
+    }
+
+    @PostMapping("/edit")
+    public String editStudent(
+            @ModelAttribute("student") Student student,
+            @RequestParam("photo") MultipartFile photo,
+            @RequestParam("studentCourse") String[] courses,
+            ModelMap modelMap,
+            RedirectAttributes redirectAttributes
+    ) throws IOException {
+        try{
+            if (student.getStudentName().isEmpty()||student.getStudentDob().isEmpty()
+                    ||student.getStudentGender().isEmpty()||student.getStudentPhone().isEmpty()
+                    ||student.getStudentEducation().isEmpty()
+            ){
+                return "redirect:/student/edit";
+            }
+        }catch (NullPointerException e){
+            System.out.println(e.getMessage());
+            return "redirect:/student/edit";
+        }
+
+
+        String photoName = photo.getOriginalFilename();
+        student.setStudentPhotoName(photoName);
+
+        byte[] studentPhoto = photo.getBytes();
+        student.setStudentPhoto(studentPhoto);
+
+        List<Course> studentCourses = new ArrayList<>();
+
+
+        for (String coursesName : courses) {
+            Course course = courseService.getCourseByName(coursesName);
+            studentCourses.add(course);
+        }
+
+        student.setStudentCourses(studentCourses);
+
+        student.setStudentId(student.getStudentId());
+
+        student.setStatus("active");
+
+
+
+        int result = studentService.updateStudent(student);
+
+        if (result<1){
+            modelMap.addAttribute("message","stuEditError");
+            return "student-edit";
+        }
+
+
+
+        redirectAttributes.addFlashAttribute("message","stuEditSuccess");
+        return "redirect:/student/list";
+    }
+
 }
