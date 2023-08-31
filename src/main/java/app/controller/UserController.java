@@ -144,4 +144,9 @@ public class UserController {
         session.invalidate();
         return "redirect:/";
     }
+
+//    @GetMapping("/profile")
+//    public ModelAndView userProfile(){
+//
+//    }
 }

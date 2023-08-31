@@ -25,18 +25,18 @@
       <form:form class="row g-3 mt-4" action="${pageContext.request.contextPath}/course/edit" method="post" modelAttribute="course">
         <div class="col-md-10">
           <div class="form-floating">
-            <form:input type="text" class="form-control" id="courseId" name="courseId"  path="displayCourseId" readonly="true"/>
+            <form:input type="text" class="form-control" id="courseId" name="courseId"  path="displayCourseId" value="${course.displayCourseId}" readonly="true"/>
           </div>
         </div>
         <div class="col-md-10">
           <div class="form-floating">
-            <form:input type="text" class="form-control" id="courseName" name="courseName"  path="courseName" placeholder="Course Name" value="${course.courseName}"/>
+            <form:input type="text" class="form-control" id="courseName" name="courseName"  path="courseName" placeholder="Course Name" />
             <label for="courseName" class="form-label">Course Name</label>
           </div>
         </div>
         <div class="col-md-10">
           <div class="form-floating">
-            <form:input type="textarea" class="form-control" id="courseDescription" name="courseDescription"  path="courseDescription" placeholder="Course Description" value="${course.courseDescription}" cssStyle="height: 200px"/>
+            <form:input type="textarea" class="form-control" id="courseDescription" name="courseDescription"  path="courseDescription" placeholder="Course Description"  cssStyle="height: 200px"/>
             <label for="courseDescription" class="form-label">Course Description</label>
           </div>
         </div>

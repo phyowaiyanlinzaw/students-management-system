@@ -57,15 +57,19 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public int updateCourse(Course course) {
+        System.out.println(course.getCourseDescription());
         int result = 0;
         try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
             em.getTransaction().begin();
-            Query query = em.createQuery("update Course c set c.courseDescription=:courseDescription,c.courseName=:courseName,c.addedAt=:addedAt,c.addedBy=:addedBy");
+            Query query = em.createQuery("update Course c set c.courseDescription=:courseDescription,c.courseName=:courseName,c.addedAt=:addedAt,c.addedBy=:addedBy where c.displayCourseId=:courseId");
             query.setParameter("courseDescription",course.getCourseDescription());
             query.setParameter("courseName",course.getCourseName());
             query.setParameter("addedAt",new Timestamp(System.currentTimeMillis()));
             query.setParameter("addedBy",course.getAddedBy());
+            query.setParameter("courseId",course.getDisplayCourseId());
+            System.out.println("in try");
             result = query.executeUpdate();
+            em.getTransaction().commit();
         }
         return result;
     }
@@ -77,10 +81,12 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public Course getOneCourse(String courseId) {
-        Course course = null;
+        Course course = new Course();
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            course = em.find(Course.class, courseId);
+            course = em.createQuery("select c from Course c where c.displayCourseId=:courseId", Course.class)
+                    .setParameter("courseId", courseId)
+                    .getSingleResult();
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());

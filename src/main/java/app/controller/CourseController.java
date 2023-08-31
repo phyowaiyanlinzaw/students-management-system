@@ -88,10 +88,10 @@ public class CourseController {
         return "course-list";
     }
 
-    @GetMapping("/edit")
-    public ModelAndView courseEdit(@RequestParam("courseName") String courseName){
-        System.out.println(courseService.getCourseByName(courseName).getCourseName());
-        return new ModelAndView("course-edit","course",courseService.getCourseByName(courseName));
+    @GetMapping("/edit/{code}")
+    public ModelAndView courseEdit(@PathVariable String code){
+        System.out.println(courseService.getOneCourse(code).getCourseName());
+        return new ModelAndView("course-edit","course",courseService.getOneCourse(code));
     }
 
     @PostMapping("/edit")
@@ -111,12 +111,20 @@ public class CourseController {
             return "course-edit";
         }
 
+        System.out.println("description : " + course.getCourseDescription());
+        System.out.println("courseID : " + course.getDisplayCourseId());
+
+
         int result = courseService.updateCourse(course);
+        System.out.println(result);
         if(result<1){
             modelMap.addAttribute("message","courseEditError");
             return "course-edit";
+        }else{
+            System.out.print("result : " + result);
+            modelMap.addAttribute("message","courseEditSuccess");
+            return "redirect:/course/list";
         }
-        modelMap.addAttribute("message","courseEditSuccess");
-        return "redirect:/course/list";
+
     }
 }
