@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -45,5 +46,37 @@
     </div>
   </div>
 </div>
+<c:choose>
+  <c:when test="${message eq 'emptyError'}">
+    <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
+    <div class="position-fixed top-0 end-0 p-3">
+      <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast-header">
+          <i class="fas fa-triangle-exclamation"></i>
+          <strong class="me-auto">Error</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Please Fill All Fields!!!
+        </div>
+      </div>
+    </div>
+  </c:when>
+  <c:when test="${message eq 'courseEditError'}">
+    <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
+    <div class="position-fixed top-0 end-0 p-3">
+      <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast-header">
+          <i class="fas fa-triangle-exclamation"></i>
+          <strong class="me-auto">Error</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Error Editing Course!!!
+        </div>
+      </div>
+    </div>
+  </c:when>
+</c:choose>
 </body>
 </html>

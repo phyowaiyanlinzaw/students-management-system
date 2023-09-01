@@ -57,14 +57,13 @@ public class CourseController {
 
         try{
             if (course.getCourseName().trim().isEmpty() || course.getCourseDescription().trim().isEmpty()) {
-                System.out.println("EMPTY");
-                redirectAttributes.addFlashAttribute("message", "emptyError");
-                return "redirect:/course/register";
+                model.addAttribute("message", "emptyError");
+                return "course-register";
             }
         }catch (NullPointerException e){
             System.out.println("Empty");
-            redirectAttributes.addFlashAttribute("message", "emptyError");
-            return "redirect:/course/register";
+            model.addAttribute("message", "emptyError");
+            return "course-register";
         }
 
         User currentUser = (User) session.getAttribute("currentUser");
@@ -73,9 +72,8 @@ public class CourseController {
         int result = courseService.registerCourse(course);
 
         if(result<1){
-            System.out.print("Error Adding");
             model.addAttribute("message","courseAddError");
-            return "course-add";
+            return "course-register";
         }
         redirectAttributes.addFlashAttribute("message","courseAddSuccess");
         return "redirect:/course/list";
@@ -111,18 +109,12 @@ public class CourseController {
             return "course-edit";
         }
 
-        System.out.println("description : " + course.getCourseDescription());
-        System.out.println("courseID : " + course.getDisplayCourseId());
-
-
         int result = courseService.updateCourse(course);
-        System.out.println(result);
         if(result<1){
             modelMap.addAttribute("message","courseEditError");
             return "course-edit";
         }else{
-            System.out.print("result : " + result);
-            modelMap.addAttribute("message","courseEditSuccess");
+            redirectAttributes.addFlashAttribute("message","courseEditSuccess");
             return "redirect:/course/list";
         }
 
@@ -131,7 +123,6 @@ public class CourseController {
     @GetMapping("/delete")
     public String courseDelete(
             @RequestParam("courseId") String courseId,
-ModelMap modelMap,
             RedirectAttributes redirectAttributes
     ){
         int result = courseService.deleteCourse(courseId);
