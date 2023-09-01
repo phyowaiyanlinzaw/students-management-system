@@ -21,13 +21,15 @@ public class HomeController {
 
     @GetMapping({"/welcome","/"})
     public String home(
-            HttpSession session
+            HttpSession session,
+            ModelMap modelMap
     ) {
 
         // Check if user is logged in
         if (session.getAttribute("currentUser") == null) {
             return "redirect:/user/login";
         }
+        modelMap.addAttribute("message","loginSuccess");
         return "welcome";
     }
 }

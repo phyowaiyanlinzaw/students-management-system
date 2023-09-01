@@ -87,6 +87,15 @@ public class StudentController {
             return "redirect:/student/register";
         }
 
+        //phone number duplicate
+        List<Student> students = studentService.getAllStudents();
+        for (Student s : students){
+            if (s.getStudentPhone().equalsIgnoreCase(student.getStudentPhone())){
+                redirectAttributes.addFlashAttribute("message","stuDupeError");
+                return "redirect:/student/register";
+            }
+        }
+
         String photoName = photo.getOriginalFilename();
         student.setStudentPhotoName(photoName);
 

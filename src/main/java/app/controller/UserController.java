@@ -33,8 +33,7 @@ public class UserController {
     public String login(
             @ModelAttribute("user") User user,
             ModelMap modelMap,
-            HttpSession session,
-            RedirectAttributes redirectAttributes
+            HttpSession session
     ){
 
         try{
@@ -56,25 +55,27 @@ public class UserController {
                 if (u.getUserEmail().equals(user.getUserIdentifier())) {
                     if (PasswordHelper.checkPassword(user.getUserPassword(), u.getUserPassword())) {
                         session.setAttribute("currentUser", u);
-                        redirectAttributes.addFlashAttribute("message", "loginSuccess");
                         return "redirect:/";
                     }else {
                         modelMap.addAttribute("message", "loginError");
                         return "user-login";
                     }
+                }else{
+                    modelMap.addAttribute("message", "notFoundError");
+                    return "user-login";
                 }
             } else {
                 if (u.getUserName().equals(user.getUserIdentifier())) {
-                    System.out.println("Same username");
                     if (PasswordHelper.checkPassword(user.getUserPassword(), u.getUserPassword())) {
-                        System.out.println("Same password");
                         session.setAttribute("currentUser", u);
-                        redirectAttributes.addFlashAttribute("message", "loginSuccess");
                         return "redirect:/";
                     }else {
                         modelMap.addAttribute("message", "loginError");
                         return "user-login";
                     }
+                }else {
+                    modelMap.addAttribute("message", "notFoundError");
+                    return "user-login";
                 }
             }
         }
@@ -124,7 +125,7 @@ public class UserController {
             return "user-register";
         }
 
-        modelMap.addAttribute("message","registerSuccess");
+        redirectAttributes.addFlashAttribute("message","registerSuccess");
         return "redirect:/user/login";
     }
 
@@ -162,18 +163,19 @@ public class UserController {
             @RequestParam("cPassword") String cPassword,
             @RequestParam("password") String password,
             @RequestParam("userId") int userId,
-            HttpSession session
+            HttpSession session,
+            RedirectAttributes redirectAttributes
 
     ){
 
         try{
             if(user.getUserName().trim().isEmpty() || user.getUserEmail().trim().isEmpty() || password.trim().isEmpty()){
                 modelMap.addAttribute("message","emptyError");
-                return "user-register";
+                return "user-profile";
             }
         }catch (NullPointerException e){
             modelMap.addAttribute("message","emptyError");
-            return "user-register";
+            return "user-profile";
         }
 
         if (!cPassword.equals(password)){
@@ -191,23 +193,28 @@ public class UserController {
             modelMap.addAttribute("message","editError");
             return "user-profile";
         }
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser.getUserRole().equals("admin")){
+            redirectAttributes.addFlashAttribute("message","editSuccess");
+            return "redirect:/user/list";
+        }
 
         session.setAttribute("currentUser",user);
-        return "redirect:/user/profile";
+        redirectAttributes.addFlashAttribute("message","editSuccess");
+        return "redirect:/welcome";
     }
 
     @GetMapping("/delete")
     public String deleteUser(
             @RequestParam("userId") int userId,
-            ModelMap modelMap
+            RedirectAttributes redirectAttributes
     ){
         int deleteResult = userService.deleteUser(userId);
         if(deleteResult==0){
-            System.out.println("cant delete");
-            modelMap.addAttribute("message","deleteError");
+            redirectAttributes.addFlashAttribute("message","deleteError");
             return "redirect:/user/list";
         }
-        modelMap.addAttribute("message","deleteSuccess");
+        redirectAttributes.addFlashAttribute("message","deleteSuccess");
         return "redirect:/user/list";
     }
 }
