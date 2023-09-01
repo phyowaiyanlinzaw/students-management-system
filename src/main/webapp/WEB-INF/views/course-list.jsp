@@ -65,7 +65,6 @@
         <tr>
             <th>#</th>
             <th>Course Name</th>
-<%--            <th>Added By</th>--%>
             <th>Added At</th>
             <th>Action</th>
         </tr>
@@ -75,7 +74,6 @@
             <tr>
                 <td>${i.index+1}</td>
                 <td>${course.courseName}</td>
-<%--                <td>${course.addedBy}</td>--%>
                 <td>${course.addedAt}</td>
                 <td>
                     <a href="${pageContext.request.contextPath}/course/edit/${course.displayCourseId}" style="text-decoration: none">

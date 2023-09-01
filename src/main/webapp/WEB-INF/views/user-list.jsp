@@ -89,6 +89,38 @@
         </div>
     </div>
 </div>
+<c:choose>
+    <c:when test="${message eq 'deleteError'}">
+        <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
+        <div class="position-fixed top-0 end-0 p-3">
+            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+                <div class="toast-header">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <strong class="me-auto">Error</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Error Deleting User!!!
+                </div>
+            </div>
+        </div>
+    </c:when>
+    <c:when test="${message eq 'deleteSuccess'}">
+        <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
+        <div class="position-fixed top-0 end-0 p-3">
+            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+                <div class="toast-header">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <strong class="me-auto">Success</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    User Deleted Successfully!!!
+                </div>
+            </div>
+        </div>
+    </c:when>
+</c:choose>
 </body>
 <script>
     $(document).ready(function() {
