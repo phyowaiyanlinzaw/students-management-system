@@ -4,6 +4,7 @@ import app.model.User;
 import app.util.JPAUtil;
 import app.util.PasswordHelper;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -56,10 +57,12 @@ public class UserServiceImpl implements UserService{
         int result = 0;
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            User user = em.find(User.class, userId);
-            em.remove(user);
+            Query query = em.createQuery("UPDATE User u SET u.status=:status WHERE u.userId=:userId");
+            query.setParameter("status","deleted");
+            query.setParameter("userId",userId);
+            result = query.executeUpdate();
             em.getTransaction().commit();
-            result = 1;
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

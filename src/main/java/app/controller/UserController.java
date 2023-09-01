@@ -195,4 +195,19 @@ public class UserController {
         session.setAttribute("currentUser",user);
         return "redirect:/user/profile";
     }
+
+    @GetMapping("/delete")
+    public String deleteUser(
+            @RequestParam("userId") int userId,
+            ModelMap modelMap
+    ){
+        int deleteResult = userService.deleteUser(userId);
+        if(deleteResult==0){
+            System.out.println("cant delete");
+            modelMap.addAttribute("message","deleteError");
+            return "redirect:/user/list";
+        }
+        modelMap.addAttribute("message","deleteSuccess");
+        return "redirect:/user/list";
+    }
 }
