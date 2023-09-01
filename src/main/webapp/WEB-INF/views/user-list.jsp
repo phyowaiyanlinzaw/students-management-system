@@ -120,6 +120,7 @@
             </div>
         </div>
     </c:when>
+
 </c:choose>
 </body>
 <script>

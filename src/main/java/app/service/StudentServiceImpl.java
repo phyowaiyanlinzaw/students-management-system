@@ -38,14 +38,6 @@ public class StudentServiceImpl implements StudentService{
         int result = 0;
         try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
             em.getTransaction().begin();
-//            Query query = em.createQuery("update Student s set s.studentName=:studentName,s.studentDob=:studentDob,s.studentGender=:studentGender,s.studentPhone=:studentPhone,s.studentEducation=:studentEducation where s.displayStudentId=:studentId");
-//            query.setParameter("studentName",student.getStudentName());
-//            query.setParameter("studentDob",student.getStudentDob());
-//            query.setParameter("studentGender",student.getStudentGender());
-//            query.setParameter("studentPhone",student.getStudentPhone());
-//            query.setParameter("studentEducation",student.getStudentEducation());
-//            query.setParameter("studentId",student.getDisplayStudentId());
-//            result = query.executeUpdate();
             Student s = em.merge(student);
             em.getTransaction().commit();
             result = 1;
