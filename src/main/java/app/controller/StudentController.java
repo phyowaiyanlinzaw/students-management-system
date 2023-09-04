@@ -16,12 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Controller
 @RequestMapping("/student")
@@ -36,7 +34,7 @@ public class StudentController {
     CourseServiceImpl courseService;
 
     @RequestMapping("/list")
-    public ModelAndView studentsList(ModelMap modelMap){
+    public ModelAndView studentsList(){
         List<Student> students = studentService.getAllStudents();
 
         for (Student student:students){
@@ -69,30 +67,28 @@ public class StudentController {
             RedirectAttributes redirectAttributes
             ) throws IOException {
 
-        System.out.println(student.getStudentName());
         String[] coursesNames = student.getStudentCourse().split(",");
-
 
         try{
             if (student.getStudentName().isEmpty()||student.getStudentDob().isEmpty()
                     ||student.getStudentGender().isEmpty()||student.getStudentPhone().isEmpty()
                     ||student.getStudentEducation().isEmpty()
             ){
-                redirectAttributes.addFlashAttribute("message","emptyError");
-                return "redirect:/student/register";
+                modelMap.addAttribute("message","emptyError");
+                return "student-register";
             }
         }catch (NullPointerException e){
             System.out.println(e.getMessage());
-            redirectAttributes.addFlashAttribute("message","emptyError");
-            return "redirect:/student/register";
+            modelMap.addAttribute("message","emptyError");
+            return "student-register";
         }
 
         //phone number duplicate
         List<Student> students = studentService.getAllStudents();
         for (Student s : students){
             if (s.getStudentPhone().equalsIgnoreCase(student.getStudentPhone())){
-                redirectAttributes.addFlashAttribute("message","stuDupeError");
-                return "redirect:/student/register";
+                modelMap.addAttribute("message","stuDupeError");
+                return "student-register";
             }
         }
 
@@ -119,7 +115,7 @@ public class StudentController {
             return "student-register";
         }
 
-
+        redirectAttributes.addFlashAttribute("message","studentAddSuccess");
         return "redirect:/student/list";
     }
 
@@ -162,11 +158,13 @@ public class StudentController {
                     ||student.getStudentGender().isEmpty()||student.getStudentPhone().isEmpty()
                     ||student.getStudentEducation().isEmpty()
             ){
-                return "redirect:/student/edit";
+                modelMap.addAttribute("message","emptyError");
+                return "student-edit";
             }
         }catch (NullPointerException e){
             System.out.println(e.getMessage());
-            return "redirect:/student/edit";
+            modelMap.addAttribute("message","emptyError");
+            return "student-edit";
         }
 
 
