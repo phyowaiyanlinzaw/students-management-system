@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service("userService")
 @Component
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Override
     public int registerUser(User user) {
         int result = 0;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
-        }finally {
+        } finally {
             JPAUtil.getEntityManagerFactory().close();
         }
 
@@ -58,8 +58,8 @@ public class UserServiceImpl implements UserService{
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             Query query = em.createQuery("UPDATE User u SET u.status=:status WHERE u.userId=:userId");
-            query.setParameter("status","deleted");
-            query.setParameter("userId",userId);
+            query.setParameter("status", "deleted");
+            query.setParameter("userId", userId);
             result = query.executeUpdate();
             em.getTransaction().commit();
 
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService{
             em.getTransaction().begin();
             userList = em.createQuery("SELECT u FROM User u where u.userRole = :userRole and u.status=:status", User.class)
                     .setParameter("userRole", "user")
-                    .setParameter("status","active")
+                    .setParameter("status", "active")
                     .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService{
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             userList = em.createQuery("SELECT u FROM User u where u.status=:userStatus", User.class)
-                    .setParameter("userStatus","active")
+                    .setParameter("userStatus", "active")
                     .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {

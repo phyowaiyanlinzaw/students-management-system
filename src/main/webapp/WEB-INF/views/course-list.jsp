@@ -3,16 +3,21 @@
 <html>
 <head>
     <title>COURSE LIST</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             box-sizing: border-box;
         }
-        .delete-modal{
+
+        .delete-modal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -21,15 +26,17 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
         }
-        .btn-success,.btn-primary{
+
+        .btn-success, .btn-primary {
             color: #1e1b4b;
             background-color: #ffffff;
-            border:1px solid #1e1b4b
+            border: 1px solid #1e1b4b
         }
-        .btn-success:hover,.btn-primary:hover{
+
+        .btn-success:hover, .btn-primary:hover {
             background-color: #1e1b4b;
             color: #ffffff;
         }
@@ -76,11 +83,13 @@
                 <td>${course.courseName}</td>
                 <td>${course.addedAt}</td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/course/edit/${course.displayCourseId}" style="text-decoration: none">
+                    <a href="${pageContext.request.contextPath}/course/edit/${course.displayCourseId}"
+                       style="text-decoration: none">
                         <button class="btn btn-sm btn-success">Update</button>
                     </a>
 
-                    <button class="btn btn-sm btn-danger delete-btn" data-course-id="${course.displayCourseId}" >Delete</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-course-id="${course.displayCourseId}">Delete
+                    </button>
                 </td>
             </tr>
         </c:forEach>
@@ -106,8 +115,9 @@
 <c:choose>
     <c:when test="${message eq 'courseDeleteError'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
-            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="position-fixed end-0 p-3" style="top:80px">
+            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong class="me-auto">Error</strong>
@@ -121,8 +131,9 @@
     </c:when>
     <c:when test="${message eq 'courseDeleteSuccess'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
-            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="position-fixed end-0 p-3" style="top:80px">
+            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong class="me-auto">Success</strong>
@@ -136,8 +147,9 @@
     </c:when>
     <c:when test="${message eq 'courseEditSuccess'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
-            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="position-fixed end-0 p-3" style="top:80px">
+            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong class="me-auto">Success</strong>
@@ -151,8 +163,9 @@
     </c:when>
     <c:when test="${message eq 'courseAddSuccess'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-0 end-0 p-3">
-            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="position-fixed end-0 p-3" style="top:80px">
+            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong class="me-auto">Success</strong>
@@ -167,7 +180,7 @@
 </c:choose>
 </body>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $('.toast').toast('show');
 
@@ -177,18 +190,18 @@
         const deleteNoButton = $(".delete-no-btn");
         let courseIdToDelete = null;
 
-        deleteButton.click(function() {
+        deleteButton.click(function () {
             courseIdToDelete = $(this).data("course-id");
             deleteModal.show();
         });
 
-        deleteYesButton.click(function() {
+        deleteYesButton.click(function () {
             if (courseIdToDelete) {
                 window.location.href = "${pageContext.request.contextPath}/course/delete?courseId=" + courseIdToDelete;
             }
         });
 
-        deleteNoButton.click(function() {
+        deleteNoButton.click(function () {
             courseIdToDelete = null;
             deleteModal.hide();
         });

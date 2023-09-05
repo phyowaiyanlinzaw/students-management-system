@@ -4,9 +4,14 @@
 <html>
 <head>
     <title>USER PROFILE</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .profile-photo {
@@ -15,34 +20,42 @@
             border-radius: 50%;
             object-fit: cover;
         }
-        *{
+
+        * {
             margin: 0;
             padding: 0;
         }
-        .btn-primary{
+
+        .btn-primary {
             color: #1e1b4b;
             background-color: #ffffff;
-            border:1px solid #1e1b4b
+            border: 1px solid #1e1b4b
         }
+
         .btn-primary:hover {
             background-color: #1e1b4b;
             color: #ffffff;
         }
-        .form-control{
+
+        .form-control {
             border: none;
             border-bottom: 1px solid #1e1b4b;
             border-radius: 0;
         }
-        .form-control:focus{
+
+        .form-control:focus {
             box-shadow: none;
             border-color: #1e1b4b;
         }
-        .form-control:focus+label{
+
+        .form-control:focus + label {
             color: #1e1b4b;
         }
-        #editIcon:hover{
+
+        #editIcon:hover {
             cursor: pointer;
         }
+
         .avatar {
             width: 150px;
             height: 150px;
@@ -68,7 +81,8 @@
                 <h3 class="me-2">User Profile</h3>
                 <i class="fas fa-edit ms-2" id="editIcon" style="color: #1e1b4b"></i>
             </div>
-            <form:form modelAttribute="user" enctype="multipart/form-data" method="post" action="${pageContext.request.contextPath}/user/edit?userId=${user.userId}">
+            <form:form modelAttribute="user" enctype="multipart/form-data" method="post"
+                       action="${pageContext.request.contextPath}/user/edit?userId=${user.userId}">
                 <div class="form-group mb-3">
                     <label for="name">Name</label>
                     <form:input type="text" class="form-control" id="name" readonly="true" path="userName"/>
@@ -79,17 +93,21 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="form-floating ">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required/>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="Enter Password" required/>
                         <label for="password" class="form-label" style="color: #1e1b4b">Password</label>
                     </div>
                     <button class="btn btn-outline-secondary" type="button" id="passwordToggle">
                         <i id="passwordIcon" class="fa fa-eye-slash" style="color: #1e1b4b"></i>
                     </button>
                 </div>
-                <div id="passwordHelp" class="form-text">Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, and one digit</div>
+                <div id="passwordHelp" class="form-text">Password must be at least 8 characters, contain at least one
+                    uppercase letter, one lowercase letter, and one digit
+                </div>
                 <div class="input-group">
                     <div class="form-floating ">
-                        <input type="password" class="form-control" id="cPassword" name="cPassword" placeholder="Enter Password" required >
+                        <input type="password" class="form-control" id="cPassword" name="cPassword"
+                               placeholder="Enter Password" required>
                         <label for="cPassword" class="form-label" style="color: #1e1b4b">Confirm Password</label>
                     </div>
                     <button class="btn btn-outline-secondary" type="button" id="cPasswordToggle">
@@ -105,8 +123,9 @@
 <c:choose>
     <c:when test="${message eq 'emptyError'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-100 end-0 p-3">
-            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="position-fixed end-0 p-3" style="top:80px">
+            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong class="me-auto">Error</strong>
@@ -120,8 +139,9 @@
     </c:when>
     <c:when test="${message eq 'passwordNotMatch'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-100 end-0 p-3">
-            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="position-fixed end-0 p-3" style="top:80px">
+            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong class="me-auto">Error</strong>
@@ -135,8 +155,9 @@
     </c:when>
     <c:when test="${message eq 'editError'}">
         <div aria-live="polite" aria-atomic="true" class="position-relative"></div>
-        <div class="position-fixed top-100 end-0 p-3">
-            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="position-fixed end-0 p-3" style="top:80px">
+            <div class="toast text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
                 <div class="toast-header">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong class="me-auto">Error</strong>

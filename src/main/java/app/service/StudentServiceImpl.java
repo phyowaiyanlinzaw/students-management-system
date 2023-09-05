@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service("studentService")
 @Component
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
     @Override
     public int registerStudent(Student student) {
         int result = 0;
@@ -27,7 +27,7 @@ public class StudentServiceImpl implements StudentService{
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
-        }finally {
+        } finally {
             JPAUtil.getEntityManagerFactory().close();
         }
         return result;
@@ -36,7 +36,7 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public int updateStudent(Student student) {
         int result = 0;
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             Student s = em.merge(student);
             em.getTransaction().commit();
@@ -49,11 +49,11 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public int deleteStudent(int studentId) {
         int result = 0;
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             Query query = em.createQuery("update Student s set s.status=:status where s.studentId=:studentId");
-            query.setParameter("status","inactive");
-            query.setParameter("studentId",studentId);
+            query.setParameter("status", "inactive");
+            query.setParameter("studentId", studentId);
             result = query.executeUpdate();
             em.getTransaction().commit();
         }
@@ -66,7 +66,7 @@ public class StudentServiceImpl implements StudentService{
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             student = em.createQuery("SELECT s FROM Student s where s.studentId=:studentId", Student.class)
-                    .setParameter("studentId",studentId)
+                    .setParameter("studentId", studentId)
                     .getSingleResult();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class StudentServiceImpl implements StudentService{
         try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             students = em.createQuery("SELECT s FROM Student s where s.status=:status", Student.class)
-                    .setParameter("status","active")
+                    .setParameter("status", "active")
                     .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -92,15 +92,15 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public int getStudentCount(){
+    public int getStudentCount() {
         int count = 0;
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            count = em.createQuery("select count (s) from Student s",Long.class)
+            count = em.createQuery("select count (s) from Student s", Long.class)
                     .getSingleResult()
                     .intValue();
             em.getTransaction().commit();
-        }   catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

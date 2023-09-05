@@ -34,10 +34,10 @@ public class StudentController {
     CourseServiceImpl courseService;
 
     @RequestMapping("/list")
-    public ModelAndView studentsList(){
+    public ModelAndView studentsList() {
         List<Student> students = studentService.getAllStudents();
 
-        for (Student student:students){
+        for (Student student : students) {
             List<Course> courses = courseService.getCoursesOfStudent(student.getStudentId());
             student.setStudentCourses(courses);
         }
@@ -47,16 +47,16 @@ public class StudentController {
     }
 
     @GetMapping("/register")
-    public ModelAndView studentRegister(ModelMap modelMap){
+    public ModelAndView studentRegister(ModelMap modelMap) {
         int count = studentService.getStudentCount();
-        if (count==0){
-            modelMap.addAttribute("studentCount",1);
-        }else{
-            modelMap.addAttribute("studentCount",count+1);
+        if (count == 0) {
+            modelMap.addAttribute("studentCount", 1);
+        } else {
+            modelMap.addAttribute("studentCount", count + 1);
         }
         List<Course> courses = courseService.getAllCourses();
-        modelMap.addAttribute("courses",courses);
-        return new ModelAndView("student-register","student",new Student());
+        modelMap.addAttribute("courses", courses);
+        return new ModelAndView("student-register", "student", new Student());
     }
 
     @PostMapping("/register")
@@ -65,30 +65,31 @@ public class StudentController {
             ModelMap modelMap,
             @RequestParam("photo") MultipartFile photo,
             RedirectAttributes redirectAttributes
-            ) throws IOException {
+    ) throws IOException {
 
-        String[] coursesNames = student.getStudentCourse().split(",");
 
-        try{
-            if (student.getStudentName().isEmpty()||student.getStudentDob().isEmpty()
-                    ||student.getStudentGender().isEmpty()||student.getStudentPhone().isEmpty()
-                    ||student.getStudentEducation().isEmpty()
-            ){
-                modelMap.addAttribute("message","emptyError");
+        try {
+            if (student.getStudentName().isEmpty() || student.getStudentDob().isEmpty()
+                    || student.getStudentGender().isEmpty() || student.getStudentPhone().isEmpty()
+                    || student.getStudentEducation().isEmpty() || student.getStudentCourse().isEmpty()
+            ) {
+                modelMap.addAttribute("message", "emptyError");
                 return "student-register";
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println(e.getMessage());
-            modelMap.addAttribute("message","emptyError");
+            modelMap.addAttribute("message", "emptyError");
             return "student-register";
         }
 
+        String[] coursesNames = student.getStudentCourse().split(",");
+
         //phone number duplicate
         List<Student> students = studentService.getAllStudents();
-        for (Student s : students){
-            if (s.getStudentPhone().equalsIgnoreCase(student.getStudentPhone())){
-                modelMap.addAttribute("message","stuDupeError");
-                return "student-register";
+        for (Student s : students) {
+            if (s.getStudentPhone().equalsIgnoreCase(student.getStudentPhone())) {
+                redirectAttributes.addFlashAttribute("message", "stuDupeError");
+                return "redirect/student/register";
             }
         }
 
@@ -110,17 +111,17 @@ public class StudentController {
 
         int result = studentService.registerStudent(student);
 
-        if (result<1){
-            modelMap.addAttribute("message","studentAddError");
+        if (result < 1) {
+            modelMap.addAttribute("message", "studentAddError");
             return "student-register";
         }
 
-        redirectAttributes.addFlashAttribute("message","studentAddSuccess");
+        redirectAttributes.addFlashAttribute("message", "studentAddSuccess");
         return "redirect:/student/list";
     }
 
     @GetMapping("/photo")
-    public void displayPhoto(@RequestParam("studentId") int studentId, HttpServletResponse response){
+    public void displayPhoto(@RequestParam("studentId") int studentId, HttpServletResponse response) {
         Student student = studentService.getOneStudent(studentId);
         if (student != null && student.getStudentPhoto() != null) {
             response.setContentType("image/jpeg");
@@ -137,12 +138,12 @@ public class StudentController {
     public ModelAndView editStudent(
             @RequestParam("studentId") int studentId,
             ModelMap modelMap
-    ){
+    ) {
         List<Course> courses = courseService.getAllCourses();
-        modelMap.addAttribute("courses",courses);
+        modelMap.addAttribute("courses", courses);
         Student student = studentService.getOneStudent(studentId);
-        modelMap.addAttribute("studentId",studentId);
-        return new ModelAndView("student-edit","student",student);
+        modelMap.addAttribute("studentId", studentId);
+        return new ModelAndView("student-edit", "student", student);
     }
 
     @PostMapping("/edit")
@@ -153,17 +154,17 @@ public class StudentController {
             ModelMap modelMap,
             RedirectAttributes redirectAttributes
     ) throws IOException {
-        try{
-            if (student.getStudentName().isEmpty()||student.getStudentDob().isEmpty()
-                    ||student.getStudentGender().isEmpty()||student.getStudentPhone().isEmpty()
-                    ||student.getStudentEducation().isEmpty()
-            ){
-                modelMap.addAttribute("message","emptyError");
+        try {
+            if (student.getStudentName().isEmpty() || student.getStudentDob().isEmpty()
+                    || student.getStudentGender().isEmpty() || student.getStudentPhone().isEmpty()
+                    || student.getStudentEducation().isEmpty()
+            ) {
+                modelMap.addAttribute("message", "emptyError");
                 return "student-edit";
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println(e.getMessage());
-            modelMap.addAttribute("message","emptyError");
+            modelMap.addAttribute("message", "emptyError");
             return "student-edit";
         }
 
@@ -189,17 +190,15 @@ public class StudentController {
         student.setStatus("active");
 
 
-
         int result = studentService.updateStudent(student);
 
-        if (result<1){
-            modelMap.addAttribute("message","stuEditError");
+        if (result < 1) {
+            modelMap.addAttribute("message", "stuEditError");
             return "student-edit";
         }
 
 
-
-        redirectAttributes.addFlashAttribute("message","stuEditSuccess");
+        redirectAttributes.addFlashAttribute("message", "stuEditSuccess");
         return "redirect:/student/list";
     }
 
@@ -207,13 +206,13 @@ public class StudentController {
     public String deleteStudent(
             @RequestParam("studentId") int studentId,
             RedirectAttributes redirectAttributes
-    ){
+    ) {
         int result = studentService.deleteStudent(studentId);
-        if (result<1){
-            redirectAttributes.addFlashAttribute("message","stuDeleteError");
+        if (result < 1) {
+            redirectAttributes.addFlashAttribute("message", "stuDeleteError");
             return "redirect:/student/list";
         }
-        redirectAttributes.addFlashAttribute("message","stuDeleteSuccess");
+        redirectAttributes.addFlashAttribute("message", "stuDeleteSuccess");
         return "redirect:/student/list";
     }
 

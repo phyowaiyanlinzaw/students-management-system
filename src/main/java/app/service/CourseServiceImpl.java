@@ -16,13 +16,13 @@ import java.util.List;
 
 @Service("courseService")
 @Component
-public class CourseServiceImpl implements CourseService{
+public class CourseServiceImpl implements CourseService {
     @Override
     public int registerCourse(Course course) {
         int result = 0;
-        try(
+        try (
                 EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()
-                ){
+        ) {
             em.getTransaction().begin();
             course.setAddedAt(new Timestamp(System.currentTimeMillis()));
             course.setStatus("active");
@@ -32,7 +32,7 @@ public class CourseServiceImpl implements CourseService{
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
-        }finally {
+        } finally {
             JPAUtil.getEntityManagerFactory().close();
         }
 
@@ -42,13 +42,13 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public int courseCount() {
         int count = 0;
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            count = em.createQuery("select count (c) from Course c",Long.class)
+            count = em.createQuery("select count (c) from Course c", Long.class)
                     .getSingleResult()
                     .intValue();
             em.getTransaction().commit();
-        }   catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -59,14 +59,14 @@ public class CourseServiceImpl implements CourseService{
     public int updateCourse(Course course) {
         System.out.println(course.getCourseDescription());
         int result = 0;
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             Query query = em.createQuery("update Course c set c.courseDescription=:courseDescription,c.courseName=:courseName,c.addedAt=:addedAt,c.addedBy=:addedBy where c.displayCourseId=:courseId");
-            query.setParameter("courseDescription",course.getCourseDescription());
-            query.setParameter("courseName",course.getCourseName());
-            query.setParameter("addedAt",new Timestamp(System.currentTimeMillis()));
-            query.setParameter("addedBy",course.getAddedBy());
-            query.setParameter("courseId",course.getDisplayCourseId());
+            query.setParameter("courseDescription", course.getCourseDescription());
+            query.setParameter("courseName", course.getCourseName());
+            query.setParameter("addedAt", new Timestamp(System.currentTimeMillis()));
+            query.setParameter("addedBy", course.getAddedBy());
+            query.setParameter("courseId", course.getDisplayCourseId());
             System.out.println("in try");
             result = query.executeUpdate();
             em.getTransaction().commit();
@@ -77,11 +77,11 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public int deleteCourse(String courseId) {
         int result = 0;
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             Query query = em.createQuery("update Course c set c.status=:status where c.displayCourseId=:courseId");
-            query.setParameter("status","deleted");
-            query.setParameter("courseId",courseId);
+            query.setParameter("status", "deleted");
+            query.setParameter("courseId", courseId);
             result = query.executeUpdate();
             em.getTransaction().commit();
         }
@@ -106,10 +106,10 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public List<Course> getAllCourses() {
         List<Course> courses = new ArrayList<>();
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
             courses = em.createQuery("SELECT c FROM Course c where c.status=:status", Course.class)
-                    .setParameter("status","active")
+                    .setParameter("status", "active")
                     .getResultList();
             em.getTransaction().commit();
         }
@@ -121,13 +121,13 @@ public class CourseServiceImpl implements CourseService{
     public Course getCourseByName(String courseName) {
         Course course = new Course();
         System.out.println(courseName);
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            course = em.createQuery("select c from Course c where c.courseName=:courseName",Course.class)
-                            .setParameter("courseName",courseName)
-                                    .getSingleResult();
+            course = em.createQuery("select c from Course c where c.courseName=:courseName", Course.class)
+                    .setParameter("courseName", courseName)
+                    .getSingleResult();
             em.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -135,16 +135,16 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public List<Course> getCoursesOfStudent(int studentId){
+    public List<Course> getCoursesOfStudent(int studentId) {
         List<Course> courses = new ArrayList<>();
-        try(EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()){
+        try (EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager()) {
             em.getTransaction().begin();
-            courses = em.createQuery("select c from Course c join c.students s where s.studentId=:studentId and c.status=:status",Course.class)
-                    .setParameter("studentId",studentId)
-                    .setParameter("status","active")
+            courses = em.createQuery("select c from Course c join c.students s where s.studentId=:studentId and c.status=:status", Course.class)
+                    .setParameter("studentId", studentId)
+                    .setParameter("status", "active")
                     .getResultList();
             em.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return courses;

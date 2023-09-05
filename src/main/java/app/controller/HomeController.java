@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/")
 public class HomeController {
 
-    @GetMapping({"/welcome","/"})
+    @GetMapping({"/welcome", "/"})
     public String home(
             HttpSession session,
             ModelMap modelMap
@@ -29,7 +29,7 @@ public class HomeController {
         if (session.getAttribute("currentUser") == null) {
             return "redirect:/user/login";
         }
-        modelMap.addAttribute("message","loginSuccess");
+        modelMap.addAttribute("message", "loginSuccess");
         return "welcome";
     }
 }
